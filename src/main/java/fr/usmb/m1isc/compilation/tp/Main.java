@@ -24,14 +24,19 @@ public class Main {
 		data = racine.getLet();
 		String dataWrite = "DATA SEGMENT \n";
 		for (String i : data)
-			dataWrite += "\t" + i + "\n";
+			dataWrite += "\t" + i + " DD\n";
 		dataWrite += "DATA ENDS \n";
 
+		// Generer
+		String code = "CODE SEGMENT\n";
+		code += racine.generer();
+		code += "CODE ENDS";
 
 		try (FileWriter fw = new FileWriter("prog.asm", false);
 			 BufferedWriter bw = new BufferedWriter(fw);
 			 PrintWriter out = new PrintWriter(bw)) {
 			out.print(dataWrite);
+			out.print(code);
 		} catch (IOException e) {
 		}
 	}
