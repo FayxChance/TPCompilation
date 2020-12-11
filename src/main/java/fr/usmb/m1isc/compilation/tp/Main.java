@@ -28,7 +28,7 @@ public class Main {
 		dataWrite += "DATA ENDS \n";
 
 
-		try (FileWriter fw = new FileWriter("prog.txt", false);
+		try (FileWriter fw = new FileWriter("prog.asm", false);
 			 BufferedWriter bw = new BufferedWriter(fw);
 			 PrintWriter out = new PrintWriter(bw)) {
 			out.print(dataWrite);
