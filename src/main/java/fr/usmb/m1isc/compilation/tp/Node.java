@@ -6,8 +6,7 @@ import java.util.Set;
 public class Node {
     public enum NodeType {SEQUENCE, EXPRESSION, EXPR, VAR, INT, OUTPUT, INPUT, NIL}
 
-    public static int COMPTEUR_BOUCLE = 0;
-    public static int COMPTEUR_COND = 0;
+    public static int COMPTEUR = 0;
     public NodeType _t;
     public String _v;
     public Node _left, _right;
@@ -148,6 +147,18 @@ public class Node {
                         "\t\tdiv eax, ebx\n" +
                         "\t\tpush eax\n";
                 break;
+            case "<":
+                COMPTEUR++;
+                Node temp = new Node(NodeType.EXPR, "-", this._left, this._right);
+                res += temp.generer() +
+                        "\t\tjl etiq_vrai_" + COMPTEUR + "\n" +
+                        "\t\tmov temp,0\n" +
+                        "\t\tjmp etiq_fin_" + COMPTEUR + "\n" +
+                        "\tetiq_vrai_" + COMPTEUR + ":\n" +
+                        "\t\tmov temp,1\n" +
+                        "\tetiq_fin_" + COMPTEUR + ":\n";
+                break;
+
         }
         return res;
     }
