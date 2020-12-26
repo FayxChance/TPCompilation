@@ -158,6 +158,15 @@ public class Node {
                         "\t\tmov temp,1\n" +
                         "\tetiq_fin_" + COMPTEUR + ":\n";
                 break;
+            case "and":
+                COMPTEUR++;
+                expressionGauche = this._left.generer();
+                expressionDroite = this._right.generer();
+                res +=
+                        expressionGauche +
+                                "\t\tjz etiq_fin_" + COMPTEUR + "\n" +
+                                expressionDroite;
+                break;
 
         }
         return res;
