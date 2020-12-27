@@ -46,7 +46,7 @@ precedence right OR;
 precedence right AND;
 precedence right NOT;
 precedence nonassoc EGAL;
-precedence nonassoc GT, GTE;
+precedence nonassoc GT, GTE, LT, LTE;
 precedence left PLUS, MOINS;
 precedence left MUL, DIV, MOD;
 precedence left MOINS_UNAIRE;
@@ -79,7 +79,7 @@ expr ::= NOT:op expr:e
 	   | expr:e1 GT expr:e2     {: RESULT = new Node(NodeType.EXPR,">",e1,e2);                :}
 	   | expr:e1 GTE expr:e2    {: RESULT = new Node(NodeType.EXPR,">=",e1,e2);               :}
 	   | expr:e1 LT expr:e2     {: RESULT = new Node(NodeType.EXPR,"<",e1,e2);                :}
-       | expr:e1 LTE expr:e2    {: RESULT = new Node(NodeType.EXPR,"<=",e1,e2);
+       | expr:e1 LTE expr:e2    {: RESULT = new Node(NodeType.EXPR,"<=",e1,e2);               :}
 	   | expr:e1 PLUS expr:e2   {: RESULT = new Node(NodeType.EXPR,"+",e1,e2);                :}
 	   | expr:e1 MOINS expr:e2  {: RESULT = new Node(NodeType.EXPR,"-",e1,e2);                :}
 	   | expr:e1 MUL expr:e2    {: RESULT = new Node(NodeType.EXPR,"*",e1,e2);                :}

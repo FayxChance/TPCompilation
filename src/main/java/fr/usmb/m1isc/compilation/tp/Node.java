@@ -110,6 +110,7 @@ public class Node {
         String res = "";
         String expressionGauche;
         String expressionDroite;
+        int tempCpt=0;
         switch (this._v) {
             case "+":
                 expressionGauche = this._left.generer();
@@ -148,24 +149,26 @@ public class Node {
                         "\t\tpush eax\n";
                 break;
             case "<":
-                COMPTEUR++;
+                System.out.println("Yolo");
+                tempCpt = COMPTEUR++;
                 Node temp = new Node(NodeType.EXPR, "-", this._left, this._right);
                 res += temp.generer() +
-                        "\t\tjl etiq_vrai_" + COMPTEUR + "\n" +
+                        "\t\tjl etiq_vrai_" + tempCpt + "\n" +
                         "\t\tmov temp,0\n" +
-                        "\t\tjmp etiq_fin_" + COMPTEUR + "\n" +
-                        "\tetiq_vrai_" + COMPTEUR + ":\n" +
+                        "\t\tjmp etiq_fin_" + tempCpt + "\n" +
+                        "\tetiq_vrai_" + tempCpt + ":\n" +
                         "\t\tmov temp,1\n" +
-                        "\tetiq_fin_" + COMPTEUR + ":\n";
+                        "\tetiq_fin_" + tempCpt + ":\n";
                 break;
             case "and":
-                COMPTEUR++;
+                tempCpt = COMPTEUR++;
                 expressionGauche = this._left.generer();
                 expressionDroite = this._right.generer();
                 res +=
                         expressionGauche +
-                                "\t\tjz etiq_fin_" + COMPTEUR + "\n" +
-                                expressionDroite;
+                                "\t\tjz etiq_fin_" + tempCpt + "\n" +
+                                expressionDroite
+                +"\tetiq_fin_"+tempCpt+":\n";
                 break;
 
         }
