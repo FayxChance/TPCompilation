@@ -30,10 +30,10 @@ public class Node {
         str=str.concat(_v);
 
         if (_left != null) {
-            str=str.concat(" "+_left.toString()+" ");
+            str=str.concat(" "+_left.toString());
         }
         if (_right != null) {
-            str=str.concat(" "+_right.toString()+" ");
+            str=str.concat(" "+_right.toString());
         }
         if (!(_left==null && _right==null))
             str=str.concat(")");
