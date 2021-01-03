@@ -64,7 +64,7 @@ public class Node {
     public String generer() {
         switch (this._t) {
             case SEQUENCE:
-                return genererExpr();
+                return ( _left==null?"":_left.generer())+(_right==null?"":_right.generer());
             case EXPRESSION:
                 return genererExpression();
             case EXPR:
@@ -104,10 +104,11 @@ public class Node {
                 tempCpt = COMPTEUR++;
                 res += "\tetiq_debut_while_" + tempCpt + ":\n" +
                         this._left.generer() +
-                        "jz etiq_fin_while_" + tempCpt + "\n" +
+                        "\t\tjz etiq_fin_while_" + tempCpt + "\n" +
                         this._right.generer() +
                         "\t\tjmp etiq_debut_while_" + tempCpt + "\n" +
                         "\tetiq_fin_while_" + tempCpt + ":\n";
+                break;
             case "if":
                 tempCpt = COMPTEUR++;
                 res += this._left.generer() +
@@ -172,10 +173,10 @@ public class Node {
                 temp = new Node(NodeType.EXPR, "-", this._left, this._right);
                 res += temp.generer() +
                         "\t\tjl etiq_debut_lt_" + tempCpt + "\n" +
-                        "\t\tmov temp,0\n" +
+                        "\t\tmov eax,0\n" +
                         "\t\tjmp etiq_fin_lt_" + tempCpt + "\n" +
                         "\tetiq_debut_lt_" + tempCpt + ":\n" +
-                        "\t\tmov temp,1\n" +
+                        "\t\tmov eax,1\n" +
                         "\tetiq_fin_lt_" + tempCpt + ":\n";
                 break;
             case "<=":
@@ -183,10 +184,10 @@ public class Node {
                 temp = new Node(NodeType.EXPR, "-", this._left, this._right);
                 res += temp.generer() +
                         "\t\tjg etiq_debut_lte_" + tempCpt + "\n" +
-                        "\t\tmov temp,0\n" +
+                        "\t\tmov eax,0\n" +
                         "\t\tjmp etiq_fin_lte_" + tempCpt + "\n" +
                         "\tetiq_debut_lte_" + tempCpt + ":\n" +
-                        "\t\tmov temp,1\n" +
+                        "\t\tmov eax,1\n" +
                         "\tetiq_fin_lte_" + tempCpt + ":\n";
                 break;
             case ">":
@@ -194,10 +195,10 @@ public class Node {
                 temp = new Node(NodeType.EXPR, "-", this._right, this._left);
                 res += temp.generer() +
                         "\t\tjl etiq_debut_gt_" + tempCpt + "\n" +
-                        "\t\tmov temp,0\n" +
+                        "\t\tmov eax,0\n" +
                         "\t\tjmp etiq_fin_gt_" + tempCpt + "\n" +
                         "\tetiq_debut_gt_" + tempCpt + ":\n" +
-                        "\t\tmov temp,1\n" +
+                        "\t\tmov eax,1\n" +
                         "\tetiq_fin_gt_" + tempCpt + ":\n";
                 break;
             case ">=":
@@ -205,10 +206,10 @@ public class Node {
                 temp = new Node(NodeType.EXPR, "-", this._right, this._left);
                 res += temp.generer() +
                         "\t\tjg etiq_debut_gte_" + tempCpt + "\n" +
-                        "\t\tmov temp,0\n" +
+                        "\t\tmov eax,0\n" +
                         "\t\tjmp etiq_fin_gte_" + tempCpt + "\n" +
                         "\tetiq_debut_gte_" + tempCpt + ":\n" +
-                        "\t\tmov temp,1\n" +
+                        "\t\tmov eax,1\n" +
                         "\tetiq_fin_gte_" + tempCpt + ":\n";
                 break;
             case "and":
@@ -217,7 +218,7 @@ public class Node {
                 expressionDroite = this._right.generer();
                 res +=
                         expressionGauche +
-                                "\t\tjz etiq_debut_and_" + tempCpt + "\n" +
+                                "\t\tjz etiq_fin_and_" + tempCpt + "\n" +
                                 expressionDroite
                                 + "\tetiq_fin_and_" + tempCpt + ":\n";
                 break;

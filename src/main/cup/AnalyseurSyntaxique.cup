@@ -35,7 +35,8 @@ parser code {:
 :};
 
 /* symboles terminaux */
-terminal PLUS, MOINS, MOINS_UNAIRE, MUL, DIV, MOD, NOT, OR, AND, PAR_G, PAR_D, SEMI, POINT, LET, INPUT, OUTPUT, IF, THEN, ELSE, WHILE, DO, EGAL, GT, GTE, LT, LTE, NIL, ERROR;
+terminal PLUS, MOINS, MOINS_UNAIRE, MUL, DIV, MOD, NOT, OR, AND, PAR_G, PAR_D, SEMI, POINT, LET, INPUT, OUTPUT, IF, THEN,
+ELSE, WHILE, DO, EGAL, GT, GTE, LT, LTE, NIL, ERROR;
 terminal Integer ENTIER;
 terminal String IDENT;
 /* non terminaux */
@@ -65,7 +66,7 @@ sequence ::= expression:e1 SEMI sequence:e2 {: RESULT = new Node(NodeType.SEQUEN
 
 // une expession est soit une affectation ,une 			 
 expression ::= expr:e                                                   {: RESULT = e;                                       :}
-             | LET IDENT:nom EGAL expr:e                                {: RESULT = new Node(NodeType.EXPRESSION,"let",new Node(NodeType.VAR,nom.toString(),null,null),e);                                              :}
+             | LET IDENT:nom EGAL expression:e                                {: RESULT = new Node(NodeType.EXPRESSION,"let",new Node(NodeType.VAR,nom.toString(),null,null),e);                                              :}
              | WHILE expr:cond DO expression:e                          {: RESULT = new Node(NodeType.EXPRESSION,"while",cond,e);                                           :}
              | IF expr:cond THEN expression:a1 ELSE expression:a2       {: RESULT = new Node(NodeType.EXPRESSION,"if",cond,new Node(NodeType.EXPRESSION,"Action",a1,a2));   :}
              | error // reprise d'erreurs
@@ -76,10 +77,10 @@ expr ::= NOT:op expr:e
 	   | expr:e1 OR expr:e2     {: RESULT = new Node(NodeType.EXPR,"or",e1,e2);               :}
 	   | expr:e1 EGAL expr:e2   {: RESULT = new Node(NodeType.EXPR,"==",e1,e2);               :}
 	   | expr:e1 AND expr:e2    {: RESULT = new Node(NodeType.EXPR,"and",e1,e2);              :}
-	   | expr:e1 GT expr:e2     {: RESULT = new Node(NodeType.EXPR,">",e1,e2);                :}
-	   | expr:e1 GTE expr:e2    {: RESULT = new Node(NodeType.EXPR,">=",e1,e2);               :}
-	   | expr:e1 LT expr:e2     {: RESULT = new Node(NodeType.EXPR,"<",e1,e2);                :}
-       | expr:e1 LTE expr:e2    {: RESULT = new Node(NodeType.EXPR,"<=",e1,e2);               :}
+	   | expr:e1 GT expr:e2     {: RESULT = new Node(NodeType.EXPR,"<",e1,e2);                :}
+	   | expr:e1 GTE expr:e2    {: RESULT = new Node(NodeType.EXPR,"<=",e1,e2);               :}
+	   | expr:e1 LT expr:e2     {: RESULT = new Node(NodeType.EXPR,">",e1,e2);                :}
+       | expr:e1 LTE expr:e2    {: RESULT = new Node(NodeType.EXPR,">=",e1,e2);               :}
 	   | expr:e1 PLUS expr:e2   {: RESULT = new Node(NodeType.EXPR,"+",e1,e2);                :}
 	   | expr:e1 MOINS expr:e2  {: RESULT = new Node(NodeType.EXPR,"-",e1,e2);                :}
 	   | expr:e1 MUL expr:e2    {: RESULT = new Node(NodeType.EXPR,"*",e1,e2);                :}
